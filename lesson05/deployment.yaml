@@ -1,5 +1,5 @@
 #в deployment используется отличная от pod и replicaset версия api
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 #другой тип объекта
 kind: Deployment
 metadata:
@@ -14,8 +14,11 @@ spec:
   	  app: my-app
   #здесь описывается стратегия обновления
   strategy:
+  	#один из типов обновления, второй recreate (docker-compose стайл)
   	rollingUpdate:
+  	  #задает на какое кол-во реплик мы можем увеличить наше кол-во реплик. Значения также можно указывать в %
   	  maxSurge: 1
+  	  #число реплик, которые могут быть недоступны. Значения также можно указывать в %
   	  maxUnavailable: 1
   	type: RollingUpdate
   #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
