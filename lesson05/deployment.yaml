@@ -1,0 +1,31 @@
+#в deployment используется отличная от pod и replicaset версия api
+apiVersion: extensions/v1beta1
+#другой тип объекта
+kind: Deployment
+metadata:
+  #название deployment
+  name: my-deployment
+#
+spec:
+  replicas: 3
+  #здесь мы указываем, что это deployment управляет pods с лейблом my-app
+  selector:
+  	matchLabels:
+  	  app: my-app
+  #здесь описывается стратегия обновления
+  strategy:
+  	rollingUpdate:
+  	  maxSurge: 1
+  	  maxUnavailable: 1
+  	type: RollingUpdate
+  #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
+  template:
+  	metadata:
+  	  labels:
+  	  	app: my-app
+  	spec:
+      containers:
+        - image: nginx:1.12
+          name: nginx
+          ports:
+            - containerPort: 80
