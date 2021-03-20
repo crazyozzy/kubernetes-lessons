@@ -1,0 +1,25 @@
+#в replicaset используется отличная от pod версия api
+apiVersion: apps/v1
+#другой тип объекта
+kind: my-replicaset
+metadata:
+  #название replicaset
+  name: my-pod
+#
+spec:
+  replicas: 3
+  #здесь мы указываем, что это replicaset управляет pods с лейблом my-app
+  selector:
+  	matchLabels:
+  	  app: my-app
+  #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
+  template:
+  	metadata:
+  	  labels:
+  	  	app: my-app
+  	spec:
+      containers:
+        - image: nginx:1.12
+          name: nginx
+          ports:
+            - containerPort: 80
