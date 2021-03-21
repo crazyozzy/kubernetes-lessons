@@ -23,9 +23,9 @@ spec:
     type: RollingUpdate
   #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
   template:
-  	metadata:
-  	  labels:
-  	  	app: my-app
+    metadata:
+      labels:
+        app: my-app
   	spec:
       containers:
         - image: nginx:1.12
