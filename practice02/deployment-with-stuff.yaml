@@ -1,0 +1,66 @@
+#в deployment используется отличная от pod и replicaset версия api
+apiVersion: apps/v1
+#другой тип объекта
+kind: Deployment
+metadata:
+  #название deployment
+  name: my-deployment
+#
+spec:
+  replicas: 3
+  #здесь мы указываем, что это deployment управляет pods с лейблом my-app
+  selector:
+    matchLabels:
+      app: my-app
+  #здесь описывается стратегия обновления
+  strategy:
+    #один из типов обновления, второй recreate (docker-compose стайл)
+    rollingUpdate:
+      #задает на какое кол-во реплик мы можем увеличить наше кол-во реплик. Значения также можно указывать в %
+      maxSurge: 1
+      #число реплик, которые могут быть недоступны. Значения также можно указывать в %
+      maxUnavailable: 1
+    type: RollingUpdate
+  #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - image: nginx:1.12
+          name: nginx
+          ports:
+            - containerPort: 80
+          #секция пробы готовности контейнера
+          readinessProbe: 
+            #указывает количество проверок, которые могут провалиться
+            failureThreshold: 3
+            #указывает инструмент пробы
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+            #указываем количество успешных проверок, после которых обнулится счетчик проваленных
+            successThreshold: 1
+            #тайм аут на выполнение
+            timeoutSeconds: 1
+          #секция пробы работы контейнера
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            #период после которого стартует первая проба
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              #кол-во милли CPU, целый CPU это 1000 милли CPU
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
