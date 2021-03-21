@@ -10,17 +10,17 @@ spec:
   replicas: 3
   #здесь мы указываем, что это deployment управляет pods с лейблом my-app
   selector:
-  	matchLabels:
-  	  app: my-app
+    matchLabels:
+      app: my-app
   #здесь описывается стратегия обновления
   strategy:
-  	#один из типов обновления, второй recreate (docker-compose стайл)
-  	rollingUpdate:
+    #один из типов обновления, второй recreate (docker-compose стайл)
+    rollingUpdate:
   	  #задает на какое кол-во реплик мы можем увеличить наше кол-во реплик. Значения также можно указывать в %
-  	  maxSurge: 1
+      maxSurge: 1
   	  #число реплик, которые могут быть недоступны. Значения также можно указывать в %
-  	  maxUnavailable: 1
-  	type: RollingUpdate
+    maxUnavailable: 1
+    type: RollingUpdate
   #replicaset работает именно с шаблоном, т.к. у подов не могут быть одинаковые имена
   template:
   	metadata:
