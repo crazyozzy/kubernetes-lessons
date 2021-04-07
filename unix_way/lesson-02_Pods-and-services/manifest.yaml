@@ -14,7 +14,19 @@ spec:
         - name: redis-port
           containerPort: 6379
           protocol: TCP
-
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: centos
+  namespace: my-app
+spec:
+  containers:
+    - name: app
+      image: centos:7
+      command: ["/bin/bash"]
+      args: ["-c", "while true; do echo waiting; sleep 10; done"]
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -28,4 +40,3 @@ spec:
   - protocol: TCP
     port: 6379
     targetPort: 6379
-
