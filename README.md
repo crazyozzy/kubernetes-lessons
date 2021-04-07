@@ -1,2 +1,2 @@
-# slurm
-Slurm Lessons Practice 
+# Terraform Lessons
+My conspects of terraform lessons
