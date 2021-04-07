@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadate:
+  name: kda-project
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uuid
+  namespace: kda-project
+  labels:
+    app: uuid
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: uuid
+  template:
+    metadata:
+      labels:
+        app: uuid
+    spec:
+      containers:
+      - name: app
+        image: crazyozzy/uuid:latest
+        ports:
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: uuid
+  namespace: kda-project
+spec:
+  type: NodePort
+  selector:
+    app: uuid4
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
