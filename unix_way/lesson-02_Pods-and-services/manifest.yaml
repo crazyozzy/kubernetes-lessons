@@ -5,11 +5,27 @@ metadata:
   namespace: my-app
   labels:
     role: redis
+    production: 'true'
 spec:
   containers:
     - name: app
-      image: redis
+      image: redis:5.0
       ports:
         - name: redis-port
           containerPort: 6379
           protocol: TCP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: my-app
+spec:
+  type: NodePort
+  selector:
+    role: redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+
