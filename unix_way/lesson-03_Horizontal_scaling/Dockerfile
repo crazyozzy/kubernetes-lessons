@@ -10,4 +10,4 @@ WORKDIR /home/app/project
 
 RUN pip install --user -r requirements.txt
 
-CMD ["/home/app/project/run.sh"]
+ENTRYPOINT ["/home/app/project/run.sh"]
