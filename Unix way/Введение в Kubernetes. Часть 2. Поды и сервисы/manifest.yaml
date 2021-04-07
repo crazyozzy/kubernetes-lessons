@@ -1,0 +1,15 @@
+apiVersion: v2
+kind: Pod
+metadata:
+  name: test
+  namespace: my-app
+  labels:
+    role: redis
+spec:
+  containers:
+    - name: app
+      image: redis
+      ports:
+        - name: redis-port
+          containerPort: 6379
+          protocol: TCP
