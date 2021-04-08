@@ -13,7 +13,7 @@ metadata:
   labels:
     app: uuid
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: uuid
@@ -27,7 +27,13 @@ spec:
         image: crazyozzy/uuid:latest
         ports:
         - containerPort: 8080
-
+        resources:
+          requests:
+            memory: "128M"
+            cpu: "250m"
+          limits:
+            memory: "128M"
+            cpu: "250m"
 ---
 
 apiVersion: v1
