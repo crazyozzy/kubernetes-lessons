@@ -38,7 +38,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: uuid4
+    app: uuid
   ports:
   - protocol: TCP
     port: 8080
